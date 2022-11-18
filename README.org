@@ -1,0 +1,19 @@
+Fix Magit on Windows taking a long time to open a buffer for writing commit messages.
+
+In my case the time between pressing c c in the Magit buffer and opening the COMMIT_EDITMSG buffer improved from 8 seconds to 0.5 seconds.
+
+* Limitations
+
+- Some config and directory structure information in git repositories is cached. You need to manually clear the cache or rerun magit-status when changing.
+- No support for special kinds of repositories.(Using bare repositories, the environment variable GIT_DIR, etc)
+- Buffer to edit commit message is in fundamental-mode.
+- bug-reference-mode is not available.
+- Don't colorize local and remote branch names.
+- There may be something else.
+
+* Usage
+
+#+begin_src elisp
+(with-eval-after-load "magit"
+  (require 'my-magit-sppedup-settings))
+#+end_src
