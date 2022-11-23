@@ -160,14 +160,22 @@
   (magit--with-refresh-cache
       (cons (or directory default-directory) 'magit-toplevel)
     (magit--with-safe-default-directory directory
-      (if (file-remote-p default-directory)
-          (funcall original-fun directory)
-        ;; Does not support:
-        ;; - environments for git directory (GIT_DIR, GIT_WORK_TREE, etc)
-        ;; - bare repository
-        ;; - find-file-visit-truename
-        (when-let ((root-dir (vc-git-root default-directory)))
-          (magit-expand-git-file-name root-dir))))))
+      (save-match-data
+        (cond
+         ;; Remote
+         ((file-remote-p default-directory)
+          (funcall original-fun directory))
+         ;; Submodule
+         ((string-match "\\`\\(.*/\\)\\.git/modules/\\(.*\\)\\'" default-directory)
+          (concat (match-string 1 default-directory)
+                  (match-string 2 default-directory)))
+         ;; Does not support:
+         ;; - environments for git directory (GIT_DIR, GIT_WORK_TREE, etc)
+         ;; - bare repository
+         ;; - find-file-visit-truename
+         (t
+          (when-let ((root-dir (vc-git-root default-directory)))
+            (magit-expand-git-file-name root-dir))))))))
 (advice-add #'magit-toplevel :around #'my-magit-toplevel-fast-but-imperfect)
 
 
