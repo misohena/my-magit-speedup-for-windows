@@ -150,12 +150,12 @@ DESTINATION is the destination argument of call-process.
 
 Returns one of the following:
 
-  'discard = Output is discarded.
-  'mix = Stdout and stderr are written to the same buffer.
-  'stdout-only = Only stdout is written to the buffer.
-  'unknown = other situation.
+  \\='discard = Output is discarded.
+  \\='mix = Stdout and stderr are written to the same buffer.
+  \\='stdout-only = Only stdout is written to the buffer.
+  \\='unknown = other situation.
 
-If DESTINATION includes a file name, returns 'unknown. "
+If DESTINATION includes a file name, returns \\='unknown. "
   ;; call-processにDESTINATION引数を渡したときの出力結果の種類を返します。
   ;;
   ;;   discard = 出力は破棄されます。
